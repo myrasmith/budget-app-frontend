@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import "./App.css";
+import About from "./About";
+const API = process.env.REACT_APP_API_URL;
 
 function App() {
+  const [message, setMessage] = useState("");
+  useEffect(() => {
+    fetch(`${API}`)
+      .then((res) => res.text())
+      .then((text) => setMessage(text));
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>BUDGET APP</h1>
+      <h2>{message ? message : "Waiting..."}</h2>
+      <Routes>
+        <Route path="about" element={<About />}></Route>
+      </Routes>
     </div>
   );
 }
